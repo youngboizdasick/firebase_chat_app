@@ -1,5 +1,6 @@
 import 'package:firebase_chat_app/firebase_chat_app/auth_providers/auth_provider.dart';
 import 'package:firebase_chat_app/firebase_chat_app/components/header_title.dart';
+import 'package:firebase_chat_app/firebase_chat_app/components/socialLogin_button.dart';
 import 'package:firebase_chat_app/firebase_chat_app/constants/constants.dart';
 import 'package:firebase_chat_app/firebase_chat_app/pages/home_page.dart';
 import 'package:flutter/material.dart';
@@ -128,60 +129,12 @@ class _LoginPageState extends State<LoginPage> {
       itemBuilder: (context, index) {
         return Padding(
           padding: EdgeInsets.only(bottom: AppConstants.spacing / 2),
-          child: GestureDetector(
-            onTap: () async {
-              bool isSuccess = await authProvider.handleSignIn();
-
-              if (isSuccess) {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
-                  (route) => false,
-                );
-              }
-            },
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: 50,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: ColorConstants.themeColor,
-                  borderRadius: BorderRadius.circular(AppConstants.radius),
-                  boxShadow: [
-                    BoxShadow(
-                      color: ColorConstants.tetiaryColor,
-                      blurRadius: 8.0,
-                      spreadRadius: 1.0,
-                      offset: Offset(0, 0),
-                    ),
-                  ],
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: AppConstants.spacing),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: AppConstants.spacing / 2),
-                        child: Image.asset(socialImages[index]),
-                      ),
-                      Text(
-                        '${socialName[index]} Account',
-                        style: TextStyle(
-                          fontSize: AppConstants.normalFontSize,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
+          child: SocialLoginButton(
+            pathUrl: socialImages[index],
+            title: socialName[index],
           ),
         );
       },
     );
   }
-
-  _onTapGoogleLogin(AuthProvider authProvider) async {}
 }
